@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%- title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="<%- locals.metakeywords ? metakeywords : '' %>">
+  <meta name="title" content="<%- locals.metatitle ? metatitle : '' %>">
+  <meta name="description" content="<%- locals.metadescription ? metadescription : '' %>">
+  <meta name="generator" content="CMS">
+  <base href="/">
+  <meta name="author" content="">
+
+  <!-- Le styles -->
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <style>
+  </style>
+  <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/layout.css">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <link rel="stylesheet" href="/css/font-awesome-ie7.css">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../bootstrap/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../bootstrap/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../bootstrap/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../bootstrap/ico/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="/bootstrap/ico/favicon.png">
+</head>
+
+<body>
+
+<header>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a href="/" class="brand brand-bootbus"><img src="/bootstrap/ico/favicon.png"></a>
+        <ul class="nav pull-left">
+          <li class="dropdown">
+            <a data-toggle="dropdown" class="lang" href="#"><%- __('Language',lang)%></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <li>
+                <a
+                  href="<% if(url.indexOf('?')>=0) { %><%- url.replace(/(.+)&lang=.+(.*)/,'$1$2') %>&<% }else{ %>?<% } %>lang=en">English</a>
+              </li>
+              <li>
+                <a
+                  href="<% if(url.indexOf('?')>=0) { %><%- url.replace(/(.+)&lang=.+(.*)/,'$1$2') %>&<% }else{ %>?<% } %>lang=ru">Русский</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <button data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar"><span class="icon-bar"></span><span
+          class="icon-bar"></span><span class="icon-bar"></span></button>
+        <div class="nav-collapse collapse">
+          <% if(locals.info){ %>
+          <ul class="nav">
+            <h6>
+              <%- info %>
+            </h6>
+          </ul>
+          <% } %>
+          <ul class="nav pull-left">
+            <li>
+              <a href="http://forum.<%-domain%>/"><%- __('forum',lang)%></a>
+            </li>
+          </ul>
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a data-toggle="dropdown" href="#"><%- __('excercises',lang)%></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <li>
+                  <a href="/excercises/postgresql">SQL</a>
+                </li>
+                <li>
+                  <a href="/excercises/neo4j">Cypher</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="/docs/table-of-contents"><%- __('CypTutor',lang)%></a>
+            </li>
+            <% if(user.id){ %>
+            <% if(user.permissions.cms&128){ %>
+            <li>
+              <a href="/an-admin">
+                admin
+              </a>
+            </li>
+            <% if(id){ %>
+            <li>
+              <a href="/an-admin/#!/materials-edit/<%- id %>" style="color: green">
+                редактировать страницу
+              </a>
+            </li>
+            <% } %>
+            <% } %>
+            <li>
+              <a href="http://auth.<%-domain%>/users/<%- user.id %>">
+                <%- user.displayname %>
+              </a>
+            </li>
+            <li>
+              <a href="http://auth.<%-domain%>/logout">Logout</a>
+            </li>
+            <% }else{ %>
+            <li>
+              <a href="http://auth.<%-domain%>/sign_in?lang=<%- lang %>">Log in</a>
+            </li>
+            <li>
+              <a href="http://auth.<%-domain%>/sign_up?lang=<%- lang %>">Sign Up</a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+
+<script src="/plugins/jquery.min.js"></script>
+<%- body %>
+<script src="/plugins/bootstrap.min.js"></script>
+
+<div id="footer">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span2">
+        <p class="muted credit">footer comes here.</p>
+      </div>
+      <div class="span2">
+        <p class="muted credit">footer comes here.</p>
+      </div>
+      <div class="span2">
+        <p class="muted credit">footer comes here.</p>
+      </div>
+      <div class="span2">
+        <p class="muted credit">footer comes here.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

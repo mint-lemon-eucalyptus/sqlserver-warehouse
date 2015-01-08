@@ -1,0 +1,25 @@
+{
+    "name": "testinghall",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "test": "mocha",
+        "start": "app.js"
+    },
+    "dependencies": {
+        "express": "3.3.5",
+        "ejs-locals": "*",
+        "ejs": "*",
+        "mssql": "*",
+        "requestify": "*",
+        "colors": "*",
+        "stylus": "*",
+        "request": "*",
+        "async": "*"
+    },
+    "devDependencies": {
+        "mocha": "1.7.0",
+        "should": "1.2.1",
+        "supertest": "0.4.0"
+    }
+}

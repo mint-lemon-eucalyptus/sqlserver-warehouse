@@ -1,0 +1,23 @@
+<a href="#!/agents/new">new</a>
+
+<table class="table">
+  <thead>
+  <th>#</th>
+  <th>Name</th>
+  <th>Address</th>
+  <th>---</th>
+  </thead>
+
+
+  <tr ng-repeat="(index, item) in data">
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+    <td>{{item.address}}</td>
+    <td>
+      <a href="#!/agents/edit/{{item.id}}">edit</a>
+    </td>
+    <td>
+      <a class="btn btn-danger" ng-click="removeEntity(item)">remove</a>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="span4">
+    <label for="type">type
+      <select id='type' data-ng-options="o.name for o in datasetTypes" data-ng-model="temp.type"
+              ng-change="loadDatasets()">
+      </select>
+    </label>
+  </div>
+  <div class="span4">
+    <button class="btn" ng-click="openCreate()" href="#createDS">create {{temp.type.id}} dataset</button>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <th>#</th>
+  <th>Name</th>
+  <th>Author</th>
+  <th>---</th>
+  </thead>
+
+  <tr ng-repeat="(index, item) in data.list">
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+    <td>{{item.author}}</td>
+      <td>
+          <button data="{{item}}" ng-click="openConsole(item)">console</button>
+      </td>
+      <td>
+          <button data="{{item}}" ng-click="openConsole(item)">console</button>
+      </td>
+  </tr>
+</table>
+
+<div class="modal hide fade fullscreen" id="console" tabindex="-1" role="dialog" aria-labelledby="label2"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="label2">{{query.name}}</h3>
+    <button class='tn' ng-click="runQuery()">run</button>
+  </div>
+  <div class="modal-body">
+    <div class=container>
+      <div class="row">
+        <div class="span5 e">
+          <textarea id="query" cols="180" style="width: 80%" rows="20" ng-model="query.query"
+                    placeholder="query here..."></textarea>
+        </div>
+        <div class="span6 e">
+          <p>{{queryResults}}</p>
+          <table id="results" style="width: 80%">
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
+<div class="modal hide fade" id="createDS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" data-focus-on="input:first" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New {{temp.type.id}} Dataset</h3>
+  </div>
+  <div class="modal-body">
+    <input id="name" type="text" ng-model="toUpdate.name" placeholder="name of dataset..."/>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary" ng-click="createDataset()">Create</button>
+  </div>
+</div>
+

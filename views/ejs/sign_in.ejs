@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="green-dev">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.css">
+  <link rel="stylesheet" href="/css/font-awesome-ie7.css">
+  <link rel="stylesheet" href="/css/layout.css">
+
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="CMS">
+
+
+</head>
+<body>
+<header>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container"><a href="/?lang=<%- lang %>" class="brand brand-bootbus"><%- __('home',lang) %></a>
+        <button data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar"><span class="icon-bar"></span><span
+          class="icon-bar"></span><span class="icon-bar"></span></button>
+        <div class="nav-collapse collapse">
+          <ul class="nav pull-left">
+          </ul>
+          <ul class="nav pull-right">
+            <li><a href="/sign_in?lang=<%- lang %>">Вход</a></li>
+            <li><a href="/sign_up?lang=<%- lang %>">Регистрация</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <hr>
+  <div id="frames" class="container">
+    <div id="index" class="row-fluid">
+      <div class="span12">
+        <div class="row">
+          <div class="span8 offset2 widget">
+            <h4 class="widget-header">
+              <i class="icon-1">
+                <%- __('login',lang) %>
+              </i>
+            </h4>
+            <% if (message.length) {%>
+            <div class="alert alert-danger center-align"><%= message %></div>
+            <% } %>
+
+            <div class="widget-body">
+              <div class="center-align">
+                <div class="row-fluid">
+                  <div class="span6">
+                    <form id="form-sign-in" action="/sign_in?lang=<%- lang %>" method="post"
+                          class="form-horizontal form-signin-signup">
+                      <input type="text" name="url" placeholder="Email">
+                      <input
+                        type="password" name="password" placeholder="Password" class="">
+
+                      <div class="clearfix"></div>
+                      <input type="submit" value="<%- __('login',lang) %>"
+                             class="btn btn-primary btn-large center-align">
+                    </form>
+                    <a class="pull-right" href="/passwordRestore?lang=<%- lang %>"><%- __('forgot',lang) %></a>
+
+                    <div class="clearfix"></div>
+                    <a href="/sign_up?lang=<%- lang %>" class="pull-right">
+                      <%- __('IAmNewHere',lang) %>
+                    </a>
+                  </div>
+                  <div class="span5">
+                    <a class="oauth" href="/auth/vkontakte" class="">
+                      <img src="/img/vk-btn.png"/>
+                    </a>
+
+                    <a class="oauth" href="/auth/facebook" class="">
+                      <img src="/img/fb-btn.png"/>
+                    </a>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,30 @@
+<%- layout('layout') -%>
+<div class="container">
+  <hr>
+  <div id="frames" class="container">
+    <div class="row-fluid">
+      <div class="row-fluid forum-sections">
+        <h4>разделы форума</h4>
+
+        <% for(var i in sections){ %>
+        <div class="row-fluid forum-section">
+          <div class="span8">
+            <h4 class="forum-section__title">
+              <a href="/<%- sections[i].type %>" class="forum-section__title-link"><%- sections[i].title %></a>
+            </h4>
+
+            <p class="section-descr"><%- sections[i].descr %></p>
+          </div>
+          <div class="span2">
+            <span><%- sections[i].threads_count %> threads</span>
+          </div>
+          <div class="span2">
+            <span><%- sections[i].posts %> posts</span>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,64 @@
+<%- layout('layout') -%>
+<div class="container">
+  <hr>
+  <div class="row-fluid">
+    <div class="span9">
+      <h6><%-__('current_section')%>:</h6>
+    <span>
+      <h3 class="page-head__title"><%-section.title%></h3>
+    </span>
+    </div>
+    <% if(user.permissions.forum&4){ %>
+    <div class="span2 pull-right">
+      <button id="crthbtn" class="btn" onclick="loadCreateThread()">Create thread</button>
+    </div>
+  </div>
+  <div id='createThread' class="container row-fluid"></div>
+  <input id='section' type="hidden" value="<%-section.type%>">
+  <script>
+    function destroyTinyMCE() {
+      tinymce = null;
+      tinyMCE = null;
+      $('div#createThread').empty();
+    }
+    function loadCreateThread() {
+      $("div#createThread").load("/partials/forum/createThread.html", function () {
+      });
+    }
+  </script>
+
+  <% } %>
+</div>
+
+<div id="frames" class="container">
+  <div class="row-fluid">
+    <% if(threads.length){%>
+    <% for(var i in threads){ %>
+    <div class="row-fluid topic-line">
+      <div class="span8">
+        <p>
+          <a class="thread-title" href="/<%-section.type%>/<%-threads[i].id%>">
+            <%-threads[i].title %>
+          </a>
+        </p>
+
+        <p class="small forum-topicline__time"><%-threads[i].dtcreated %></p>
+      </div>
+      <div class="span2">
+        <%-threads[i].messages_count %>&nbsp;<%- __('replies')%>
+      </div>
+      <div class="span2  ml-2">
+        <p class="small forum-topicline__time"><%-threads[i].lastdt %></p>
+        last by: <a href="/users/<%-threads[i].author_id %>" class="author">
+        <%-threads[i].author %>
+      </a>
+      </div>
+    </div>
+    <% } %>
+    <% }else{ %>
+    <hr>
+    <h5><%- __('sectionHasNoThreads')%></h5>
+    <% } %>
+  </div>
+</div>
+</div>

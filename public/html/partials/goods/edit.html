@@ -1,0 +1,14 @@
+
+
+<div class="row">
+    <label for="title">name
+        <input id="title" type="text" ng-model="entity.name" placeholder="enter name here"/>
+    </label>
+    <label for="url">maker
+        <input id="url" type="text" ng-model="entity.maker" ng-focus="onFocus()" ng-blur="onBlur()"/>
+    </label>
+
+    <button class="btn btn-success" ng-click="saveEntity()">save</button>
+
+</div>
+

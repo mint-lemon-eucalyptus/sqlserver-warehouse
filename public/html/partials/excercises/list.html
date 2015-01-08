@@ -1,0 +1,172 @@
+<div class="row">
+  <div class="span4">
+    <label for="type">type
+      <select id='type' data-ng-options="o.name for o in excerciseTypes" ng-model="temp.type"
+              ng-change="loadExcercises()">
+      </select>
+    </label>
+  </div>
+  <div class="span4">
+    <button id='testCreate' class="btn" ng-click="openExcerciseSettings()">create
+      {{temp.type.id}}
+      excercise
+    </button>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <th>#</th>
+  <th>Question</th>
+  <th>Author</th>
+  <th>Privacy</th>
+  <th>---</th>
+  </thead>
+
+  <tr ng-repeat="(index, item) in excercises">
+    <td>{{item.pos}}</td>
+    <td>{{item.question}}</td>
+    <td>{{item.author}}</td>
+    <td>{{fp(item.privacy)}}</td>
+    <td an-privacy privacy='{{item.privacy}}'></td>
+    <td>
+      <button data="{{item}}" ng-click="openExcerciseSettings(item)">edit</button>
+    </td>
+  </tr>
+</table>
+
+<div class="modal hide fade fullscreen center" id="createEx" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">{{temp.type.id}} excercise settings</h3>
+  </div>
+  <div class="modal-body">
+    <div class=container>
+      <div class="row-fluid">
+        <div class="span5">
+          <label for="privacy">visible for:
+            <select id='privacy' style="width: 150px;" data-ng-options="o.name for o in privacies"
+                    data-ng-model="temp.privacy">
+            </select>
+          </label>
+          <label for="complexity">complexity:
+            <select id='complexity' style="width: 150px;" data-ng-options="o.name for o in complexities"
+                    data-ng-model="temp.complexity">
+            </select>
+          </label>
+          <label for="position">position:
+            <input id="position" style="width: 100px;" type="text" ng-model="excercise.pos"/>
+          </label>
+          <textarea id="question" style="width: 450px; height: 25%;" rows="6" ng-model="excercise.question"
+                    placeholder="enter excercise formulation here..."></textarea>
+          <textarea id="test_query" style="width: 450px; height: 25%;" rows="6" ng-model="excercise.test_query"
+                    placeholder="enter test query here..."></textarea>
+        </div>
+        <div class="span5">
+          <p>Click "Add" button for append an existing dataset to this excercise
+            <button id='addDSBtn' class="btn btn-warning" ng-click="openTestSetsAddingDialog()">Add...</button>
+          </p>
+          <table class="table">
+            <thead>
+            <th>pos</th>
+            <th>name</th>
+            <th>error_description</th>
+            <th>---</th>
+            </thead>
+
+            <tr ng-repeat="(index, item) in excercise.datasets">
+              <td>{{item.pos}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.err_desc}}</td>
+              <td>
+                <button data="{{item}}" ng-click="removeFromTestSets(item)">remove</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveExcercise()">Save</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+<div class="modal hide fade" id="addDS" tabindex="-1" role="dialog" aria-labelledby="label2"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>adding dataset...</h3>
+  </div>
+  <div class="modal-body">
+    <div class=container>
+      <div class="row">
+        <div class="span5 e">
+          <table class="table">
+            <thead>
+            <th>#</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>---</th>
+            </thead>
+
+            <tr ng-repeat="(index, item) in availableDatasets">
+              <td>{{item.name}}</td>
+              <td>
+                <button id='add_{{item.id}}' data="{{item}}"  href="#setErrDesc"
+                        ng-click="addToTestSets(item)">add
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+<div class="modal hide fade" id="setErrDesc" tabindex="-1" role="dialog" aria-labelledby="label2"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="label2">enter here error description...</h3>
+  </div>
+  <div class="modal-body">
+    <div class=container>
+      <div class="row">
+        <div class="span5">
+          <textarea cols="180" style="width: 80%; height: 30%;" rows="6" ng-model="temp.err_desc"
+                    placeholder="enter error description for this test set..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" ng-click='checkDesc()' aria-hidden="true">Ok</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+  </div>
+</div>
+<div class="modal hide fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="label2"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>{{resultHeader}}</h3>
+  </div>
+  <div class="modal-body">
+    <div class=container>
+      <div class="row">
+        <div class="span5">
+          <div class=ng-error>{{error}}</div>
+          <div class=ng-success>{{success}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

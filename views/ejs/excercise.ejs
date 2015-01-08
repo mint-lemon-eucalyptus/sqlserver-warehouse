@@ -1,0 +1,143 @@
+<%- layout('layout') -%>
+<div class="container">
+  <hr>
+  <style>
+    textarea {
+      width: 95%;
+      min-height: 200px;
+
+    }
+
+    .cypher_span {
+      color: #960000;
+    }
+
+    textarea#queryarea {
+      min-height: 200px;
+      height: 80%;
+    }
+
+    div {
+      /*      border: 1px red solid;
+       */
+    }
+  </style>
+  <div id="frames" class="container">
+
+    <div id="masthead" class="row-fluid">
+      <div class="span12">
+
+      </div>
+    </div>
+
+    <div id="index" class="row-fluid e">
+
+      <div class="span5 e">
+        <label for="excercises">excercise:
+          <select id='excercises'>
+            <% for(var i=0;i < rs.length;++i){ %>
+            <option id='<%- rs[i].id %>'>#(<%- rs[i].pos %>)<%- rs[i].solved?'&nbsp;&nbsp;&nbsp;&nbsp;solved':'' %>
+            </option>
+            <% } %>
+          </select>
+        </label>
+
+        <div id='material_desc'>
+          <h5 id='title'></h5>
+
+          <div id='question'></div>
+          <div>
+            <span id='author'></span>
+            <span id='dtcreated'></span>
+          </div>
+        </div>
+      </div>
+      <script>
+        function loadExcercise(curItem) {
+          var jj = {
+            ex: curItem.attr('id')
+          };
+          if (!jj.ex) {
+            return;
+          }
+          $.post('/excercises/showInfo', jj, function (data) {
+            if (data.err) {
+              alert(data.err);
+              return;
+            }
+            var dd = data.response[0];
+            var cont = $('div#material_desc');
+            //   cont.find('h5#title').html(dd.title);
+            cont.find('div#question').html(dd.question);
+            $('#queryarea').text(dd.query ? dd.query : '');
+            cont.find('span#dtcreated').html('at: ' + dd.created.replace(/((\d+)-(\d+)-(\d+))T(\d+:\d+)(.+)/, '$3 $4 $2 $5'));
+            cont.find('span#author').html('created by: <b>' + dd.author + '</b>');
+          })
+        }
+        $(document).ready(function () {
+            loadExcercise($('select#excercises option:selected'));
+            $('select#excercises').change(function () {
+              loadExcercise($(this).find('option:selected'));
+            });
+          }
+        );
+      </script>
+      <div class="span7 e">
+
+        <div id="queryContainer" class="row queryarearow">
+          <textarea id='queryarea'>
+
+          </textarea>
+
+        </div>
+        <div class="row">
+          <div class="span4">
+            <button id='runQuery' class="btn">run</button>
+          </div>
+          <div class="span4">
+            <input type="checkbox" id='testQuery'>test</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid e" id='resultContainer'>
+
+      <div class="collapse in"></div>
+    </div>
+
+
+  </div>
+
+</div>
+</div>
+
+<script src="/javascripts/parser.js"></script>
+<script>
+  function sendQuery() {
+    var j = {
+      excercise: $('select#excercises option:selected').attr('id'),
+      query: $('textarea#queryarea').val().trim(),
+      test: (($('input#testQuery').attr('checked') ? true : false))
+    };
+    $.post('/check-query', j, function (data) {
+      parser.fromJson(data);
+    });
+  }
+
+
+  var parser;
+  $(document).ready(function () {
+    parser = new Parser();
+    parser.init({container: $('#resultContainer')/* $('#resultArea')*/, type: 'table', driver: '<%-driver%>'})
+    $('textarea#queryarea').keydown(function (e) {
+
+      if (e.ctrlKey && e.keyCode == 13) {
+        sendQuery();
+      }
+    });
+    $('button#runQuery').click(sendQuery);
+    $('textarea#queryarea').focus();
+  });
+</script>
+<script src="/javascripts/bootstrap-tooltip.js"></script>
+<script src="/javascripts/bootstrap-popover.js"></script>

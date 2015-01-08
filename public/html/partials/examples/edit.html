@@ -1,0 +1,56 @@
+<div id='material-edit' class="row">
+  <div class="span10">
+    <textarea data-ui-tinymce data-ng-model="data.content"></textarea>
+
+    <form name="form" novalidate>
+    </form>
+
+    <iframe id="form_target" name="form_target" style="display:none"></iframe>
+    <form id="my_form" action="/upload/" target="form_target" method="post" enctype="multipart/form-data"
+          style="width:0px;height:0;overflow:hidden">
+      <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
+    </form>
+  </div>
+  <div class="span2">
+    <button ng-click="saveChanges()" class="btn btn-success">Save...</button>
+    <a href="{{data.url}}?lang={{data.lang}}" target="_blank" class="btn btn-info">view...</a>
+    <!--
+        <button ng-click="reloadPage()" class="btn btn-warning">Reload page</button>
+    -->
+    <label for="title">title
+      <input id="title" type="text" ng-model="data.title" placeholder="enter page title here"/>
+    </label>
+    <label for="url">url
+      <input id="url" type="text" ng-model="data.url" ng-focus="onFocus()" ng-blur="onBlur()"/>
+    </label>
+
+    <label for="privacy">material visibility
+      <select id='privacy' data-ng-options="o.name for o in privacies" data-ng-model="temp.privacy">
+      </select>
+    </label>
+    <label for="template">template
+      <select id='template' data-ng-options="o.name for o in templates" data-ng-model="temp.template">
+      </select>
+    </label>
+    <label for="metatitle">metaTitle
+      <input id="metatitle" type="text" ng-model="data.metatitle"/>
+    </label>
+    <label for="metadescription">metaDesc
+      <input id="metadescription" type="text" ng-model="data.metadescription"/>
+    </label>
+    <label for="metakeywords">metaKeywords
+      <textarea id="metakeywords" ng-model="data.metakeywords"></textarea>
+    </label>
+    <label for="prev">prev page
+      <input type="text" id="prev" ng-model="data.prev">
+    </label>
+    <label for="next">next page
+      <input type="text" id="next" ng-model="data.next">
+    </label>
+    <label for="parent">parent page
+      <input type="text" id="parent" ng-model="data.parent">
+    </label>
+
+  </div>
+</div>
+

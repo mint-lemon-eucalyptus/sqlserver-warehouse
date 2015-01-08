@@ -1,0 +1,63 @@
+<%- layout('layout') -%>
+<div class="container">
+<!--
+  <style>
+    div{
+      border: 1px red solid;
+    }
+  </style>
+  -->
+  <div id="frames" class="container">
+
+    <div id="masthead" class="row-fluid">
+      <div class="span12">
+        <%- widgets.before_content %>
+      </div>
+    </div>
+
+
+    <div id="index" class="row-fluid">
+      <% if(widgets.left) { %>
+        <div class="span3">
+          <%- widgets.left %>
+        </div>
+      <% } %>
+
+      <div class="span6">
+        <%- widgets.content_header %>
+        <%- content %>
+      </div>
+      <% if(widgets.right) { %>
+      <div class="span3">
+        <%- widgets.right %>
+      </div>
+      <% } %>
+    </div>
+
+    <div id="underhead" class="row-fluid">
+      <div class="span12">
+        <%- widgets.after_content %>
+      </div>
+    </div>
+
+    <div id="footer1" class="row-fluid">
+      <div class="span4">
+        <%- widgets.footer1_1 %>
+      </div>
+      <div class="span4">
+        <%- widgets.footer1_2 %>
+      </div>
+      <div class="span4">
+        <%- widgets.footer1_3 %>
+      </div>
+    </div>
+    <div id="footer2" class="row-fluid">
+      <div class="span6">
+        <%- widgets.footer2_1 %>
+      </div>
+      <div class="span6">
+        <%- widgets.footer2_2 %>
+      </div>
+    </div>
+  </div>
+</div>

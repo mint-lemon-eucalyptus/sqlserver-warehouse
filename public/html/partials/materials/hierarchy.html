@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/css/angular-ui-tree.min.css">
+<link rel="stylesheet" href="/css/demo.css">
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-4">
+      <h2>What?</h2>
+
+      <p>
+        Angular Tree is an AngularJS UI component that can sort nested lists, provides drag &amp; drop support and
+        doesn't depend on jQuery.
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h2>Features</h2>
+      <ul>
+        <li>Uses the native AngularJS scope for data binding</li>
+        <li>Sorted and move items through the entire tree</li>
+        <li>Prevent elements from accepting child nodes</li>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h2>Examples</h2>
+      <ol>
+        <li><a href="tree.html">Unlimited nesting</a></li>
+        <li><a href="trees.html">Connected trees</a></li>
+        <li><a href="groups.html">Groups &amp; Categories</a></li>
+        <!-- <li><a href="accept.html">Limited drag &amp; drop</a></li> -->
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h2>See it in action</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-lg-6">
+        <h3>Draggable Tree</h3>
+
+        <!-- Nested list template -->
+        <div ui-tree>
+          <ol ui-tree-nodes="" ng-model="list">
+            <li ng-repeat="item in list" ui-tree-node>
+              <div ui-tree-handle>
+                {{item.title}}
+              </div>
+              <ol ui-tree-nodes="" ng-model="item.items">
+                <li ng-repeat="subItem in item.items" ui-tree-node>
+                  <div ui-tree-handle>
+                    {{subItem.title}}
+                  </div>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <h3>Full tree</h3>
+        <pre class="code">{{ list | json }}</pre>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- JavaScript
+<script src="/test/js/demo.js"></script>
+-->

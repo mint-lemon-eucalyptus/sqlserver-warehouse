@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="green-dev">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.css">
+  <link rel="stylesheet" href="/css/font-awesome-ie7.css">
+  <link rel="stylesheet" href="/css/layout.css">
+
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="CMS">
+
+
+</head>
+<body>
+<header>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container"><a href="/" class="brand brand-bootbus"><%- __('home',lang)%></a>
+        <button data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar"><span class="icon-bar"></span><span
+          class="icon-bar"></span><span class="icon-bar"></span></button>
+        <div class="nav-collapse collapse">
+          <ul class="nav pull-left">
+          </ul>
+          <ul class="nav pull-right">
+            <li><a href="/sign_in?lang=<%- lang %>">Вход</a></li>
+            <li><a href="/sign_up?lang=<%- lang %>">Регистрация</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/plugins/jquery.min.js"></script>
+</header>
+
+<div class="container">
+  <hr>
+  <div id="frames" class="container">
+    <div id="index" class="row-fluid">
+      <div class="span12">
+        <div class="row">
+          <div class="span8 offset2 widget">
+
+            <div class="widget-body">
+              <div class="center-align">
+                <div class="row-fluid">
+                  <div id='sign_up_form' class="form-horizontal">
+                    <fieldset>
+                      <div id="legend">
+                        <legend class=""><%- __('createAccount',lang)%></legend>
+                      </div>
+                      <div class="control-group">
+                        <!-- Username -->
+                        <label class="control-label" for="displayname"><%- __('userName',lang)%></label>
+
+                        <div class="controls">
+                          <input type="text" id="displayname" name="displayname" placeholder="" class="input-xlarge">
+
+                          <p class="help-block"><%- __('unameHelp',lang)%></p>
+                        </div>
+                      </div>
+
+                      <div class="control-group">
+                        <!-- E-mail -->
+                        <label class="control-label" for="profileurl">E-mail</label>
+
+                        <div class="controls">
+                          <input type="text" id="profileurl" name="profileurl" placeholder="" class="input-xlarge">
+
+                          <p class="help-block"><%- __('emailHelp',lang)%></p>
+                        </div>
+                      </div>
+
+                      <div class="control-group">
+                        <!-- Password-->
+                        <label class="control-label" for="pass"><%- __('password',lang)%></label>
+
+                        <div class="controls">
+                          <input type="password" id="pass" name="pass" placeholder="" class="input-xlarge">
+
+                          <p class="help-block"><%- __('passHelp',lang)%></p>
+                        </div>
+                      </div>
+
+                      <div class="control-group">
+                        <!-- Password -->
+                        <label class="control-label" for="confirm"><%- __('confirmPassword',lang)%></label>
+
+                        <div class="controls">
+                          <input type="password" id="confirm" name="confirm" placeholder="" class="input-xlarge">
+
+                          <p class="help-block"><%- __('confirmHelp',lang)%></p>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <!-- Password -->
+                        <div class="controls">
+                          <input type="checkbox" id="terms_accept" name="terms_accept" class="input-xlarge">
+                          <a href="/terms-of-usage?lang=<%-lang%>"><%- __('rulesHelp',lang)%></a>
+                        </div>
+                      </div>
+
+                      <div class="control-group">
+                        <!-- Button -->
+                        <div class="controls">
+                          <button id='post' class="btn btn-success"><%- __('Done',lang)%></button>
+                          <div id='flash' style="color: red; line-height: 1.5em;"></div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <script src="/pages/util.js"></script>
+                    <script>
+                      function flash(obj) {
+                        $('div#flash').html('<p>' + obj.error + '</p>');
+                      }
+                      function validateEmail(email) {
+                        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        return re.test(email);
+                      }
+                      $(document).ready(function () {
+                        $('button#post').click(function () {
+                          flash({error: ''})
+                          var js = serialize('div#sign_up_form');
+                          $.post('/sign_up?lang=<%-lang%>', js, function (rs) {
+                            console.log('post', rs);
+                            if (rs.error) {
+                              flash(rs);
+                            } else {
+                              if (rs.success === true) {
+                                window.location.href = '/';
+                              } else {
+                                flash({error: 'something bad happens...'})
+                              }
+                            }
+                          });
+                        });
+
+                      });
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

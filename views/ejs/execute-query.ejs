@@ -1,0 +1,48 @@
+<%- layout('layout') -%>
+<div class="container">
+  <hr>
+  <div id="frames" class="container">
+    <div id="index" class="row-fluid">
+      <div class="span5 e">
+        <textarea cols="40" rows="4">
+          <%- query %>
+        </textarea>
+
+        <p><%- __('queryExecTime',lang) %>: <%- queryTime/1000 %> s.</p>
+      </div>
+      <div class="span7 e">
+        <% if(rs.length){ %>
+        <table id="sorting_table" class="table table-bordered table-hover">
+          <thead>
+          <% for(var i in rs[0]){ %>
+          <th><%- i %></th>
+
+          <% } %>
+          </thead>
+          <tbody id='results'>
+          <% if(rs.length==0){ %>
+          <p>&lt;empty resultset&gt;</p>
+          <% } %>
+          <% for(var i=0;i< rs.length;++i){ %>
+          <tr>
+            <% if(Object.keys(rs[i]).length>0){ %>
+            <% for(var j in rs[i]){ %>
+            <td><%- renderer(rs[i][j]) %></td>
+            <% } }else { %>
+            <td>NULL</td>
+            <% } %>
+          </tr>
+          <% } %>
+          </tbody>
+        </table>
+        <% } else {%>
+        <div>
+          <p>
+            empty resultset
+          </p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

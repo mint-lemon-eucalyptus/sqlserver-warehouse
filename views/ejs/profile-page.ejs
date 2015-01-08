@@ -1,0 +1,79 @@
+<%- layout('layout') -%>
+<div class="container">
+  <hr>
+  <style>
+    .fullname {
+      font-size: 3em;
+      color: #4a484a;
+      padding-top: 0.8em;
+      padding-bottom: 1em;
+    }
+
+    .rating-place {
+      color: #696969;
+    }
+  </style>
+  <div id="frames" class="container">
+
+    <div id="masthead" class="row-fluid">
+      <div class="span9 user_profile">
+        <div class="user_profile">
+          <!-- USER PROFILE -->
+          <div class="fullname"><%- profile.displayname %></div>
+          <div class="rating-place">занимает <%- profile.excercise_ratingpos %>-ое место в <a href="/users/">рейтинге</a>
+            пользователей
+          </div>
+          <% if(profile.options){%>
+          <% if(profile.options.bdate){%>
+          <dl>
+            <dt>Дата рождения:</dt>
+            <dd class="bday">28 мая 1988</dd>
+          </dl>
+          <%}%>
+          <dl>
+            <dt>
+              Зарегистрирован:
+            </dt>
+            <dd class="grey"><%- profile.regdt %>
+            </dd>
+          </dl>
+          <% if(profile.options.country){%>
+          <dl>
+            <dt>Откуда:</dt>
+            <dd>
+              <a class="country-name" href="http://habrahabr.ru/users/?country=168">Россия</a>, <a class="region"
+                                                                                                   href="http://habrahabr.ru/users/?region=1944">Самарская
+              обл.</a>, <a class="city" href="http://habrahabr.ru/users/?city=447685">Самара</a>
+            </dd>
+          </dl>
+          <%}%>
+          <% if(profile.options.aboutme){%>
+          <!-- Описание самого себя, оставленное самим пользователем -->
+          <dl>
+            <dt>О себе:</dt>
+            <dd class="summary">
+              @!!ex<br>
+              Программист. Занимаюсь разработкой 3Д движков и инструментария к ним.<br>
+              Горжусь тем, что вёл проект Striker в ООО Элитком:<br>
+              <a href="http://youtu.be/aeSOLJnw8p4">youtu.be/aeSOLJnw8p4</a><br>
+              <br>
+              Статьи о практической стрльбе на хабре писать больше не буду. :)<br>
+            </dd>
+          </dl>
+          <!-- // Описание самого себя, оставленное самим пользователем -->
+          <%}%>
+          <%}%>
+          <dl class="hubs_list">
+            <dt>Решенные задачи:</dt>
+            <dd>
+              <ul class="grey" id="hubs_data_items">
+                <li class="">Postgresql: <%- profile.excercise_stats.postgresql?profile.excercise_stats.postgresql:'нет решенных' %></li>
+                <li class="">Cypher: <%- profile.excercise_stats.neo4j?profile.excercise_stats.neo4j:'нет решенных' %></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

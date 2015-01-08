@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="span4">
+    <div>Page: {{pagination.page+1}} of {{pageCount()}}</div>
+    <div>Containing: {{data.list.length}} item(s) of {{total}}</div>
+  </div>
+  <div class="span4">
+    <a href="#!materials-edit/new?lang={{temp.lang.id}}" class="btn btn-primary">create...</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span5">
+    <div class="pagination">
+      <ul>
+        <li ng-class="prevPageDisabled()">
+          <a href="#!/materials?page={{(currentPage>=0?0:-1)}}" ng-click="prevPage()">« First</a>
+        </li>
+        <li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)">
+          <a href="#!/materials?page={{n}}">{{n}}</a>
+        </li>
+        <li ng-class="nextPageDisabled()">
+          <a href="#!/materials?page={{pageCount()-1}}" ng-click="nextPage()">Last »</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="span5">
+    <label for="lang">language
+      <select id='lang' data-ng-options="o.name for o in materialLangs" data-ng-model="temp.lang" ng-change="langChange()">
+      </select>
+    </label>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+  <th>#</th>
+  <th>Title</th>
+  <th>Url</th>
+  <th>Privacy</th>
+  <th>Author</th>
+  <th>Created</th>
+  <th>---</th>
+  </thead>
+
+  <tr ng-repeat="(index, item) in data.list | pagination:pagination.page:pagination.size">
+    <td>{{item.id}}</td>
+    <td>{{item.title}}</td>
+    <td>{{item.url}}</td>
+    <td>{{item.privacy}}</td>
+    <td>{{item.author}}</td>
+    <td>{{item.dtcreated}}</td>
+    <td><a href="#!/materials-edit/{{item.id}}">edit</a></td>
+  </tr>
+</table>

@@ -1,0 +1,36 @@
+<%- layout('layout') -%>
+<div class="container">
+  <hr>
+  <style>
+    .fullname {
+      font-size: 3em;
+      color: #4a484a;
+      padding-top: 0.8em;
+      padding-bottom: 1em;
+    }
+
+    .rating-place {
+      color: #696969;
+    }
+  </style>
+  <div id="frames" class="container">
+
+    <div id="masthead" class="row-fluid">
+      <div class="span9 user_profile e">
+        <div class="user_profile">
+          <!-- USER PROFILE -->
+          <% for(var i=0;i< users.length;++i){%>
+          <div class="row-fluid e">
+            <div class="displayname"><a href="/users/<%-users[i].id %>"><%-users[i].displayname %></a></div>
+            <div class="regdt">на сайте с: <%-users[i].regdt %></div>
+            <div class="ratingpos">excercise rating pos: <%-users[i].excercise_ratingpos %></div>
+            <div class="rating">excercise rating: <%-users[i].excercise_rating %></div>
+          </div>
+
+          <%}%>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

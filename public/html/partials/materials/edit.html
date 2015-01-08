@@ -1,0 +1,59 @@
+<div id='material-edit' class="row">
+  <div class="span10">
+    <textarea data-ui-tinymce data-ng-model="data.content"></textarea>
+
+    <form name="form" novalidate>
+    </form>
+
+    <iframe id="form_target" name="form_target" style="display:none"></iframe>
+    <form id="my_form" action="/upload/" target="form_target" method="post" enctype="multipart/form-data"
+          style="width:0px;height:0;overflow:hidden">
+      <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
+    </form>
+  </div>
+  <div class="span2">
+    <button ng-click="saveChanges()" class="btn btn-success">Save...</button>
+    <a href="{{data.url}}?lang={{data.lang}}" class="btn btn-info">view...</a>
+    <a href="#!materials-edit/new?lang={{data.lang}}&prev={{data.url}}&parent={{data.parent}}&mt={{data.metatitle}}&md={{data.metadescription}}&mk={{data.metakeywords}}" class="btn btn-info">Create next page</a>
+    <!--
+        <button ng-click="reloadPage()" class="btn btn-warning">Reload page</button>
+    -->
+    <label for="title">title
+      <input id="title" type="text" ng-model="data.title" placeholder="enter page title here"/>
+    </label>
+    <label for="url">url
+      <input id="url" type="text" ng-model="data.url" ng-focus="onFocus()" ng-blur="onBlur()"/>
+    </label>
+
+    <label for="privacy">material visibility
+      <select id='privacy' data-ng-options="o.name for o in privacies" data-ng-model="temp.privacy">
+      </select>
+    </label>
+    <label for="template">template
+      <select id='template' data-ng-options="o.name for o in templates" data-ng-model="temp.template">
+      </select>
+    </label>
+    <label for="metatitle">metaTitle
+      <input id="metatitle" type="text" ng-model="data.metatitle"/>
+    </label>
+    <label for="metadescription">metaDesc
+      <input id="metadescription" type="text" ng-model="data.metadescription"/>
+    </label>
+    <label for="metakeywords">metaKeywords
+      <textarea id="metakeywords" ng-model="data.metakeywords"></textarea>
+    </label>
+    <label for="prev">prev page
+      <select id='prev' data-ng-options="o.name+' ('+o.id+')' for o in availablePages" data-ng-model="temp.prev">
+      </select>
+    </label>
+    <label for="next">next page
+      <select id='next' data-ng-options="o.name+' ('+o.id+')' for o in availablePages" data-ng-model="temp.next">
+      </select>
+    </label>
+    <label for="parent">parent page
+      <select id='parent' data-ng-options="o.name+' ('+o.id+')' for o in availablePages" data-ng-model="temp.parent">
+      </select>
+    </label>
+  </div>
+</div>
+

@@ -1,0 +1,133 @@
+<%- layout('layout') -%>
+<input id='section' type="hidden" value="<%-thread.section_type%>">
+<input id='thread' type="hidden" value="<%-thread.id%>">
+
+
+<div class="container">
+  <div class="row-fluid">
+    <hr class="divider">
+    <div class="row-fluid">
+      <div class="span9">
+        <h5 class="page-head__title">
+          <a href="/<%- thread.section_type %>/"><%- thread.section_name %></a> / <%- thread.title %></h5>
+      </div>
+      <% if(!user.id){ %>
+      <div class="span3 pull-right">
+        <small>Only authorized user can create threads</small>
+      </div>
+      <%}else{%>
+      <% if(user.permissions.forum&4){ %>
+      <div class="span2 pull-right">
+        <button id="crthbtn" class="btn" onclick="loadFrame('/partials/forum/createThread.html','createThread');">Create
+          thread
+        </button>
+      </div>
+      <div id='createThread' class="container row-fluid"></div>
+      <% }else{ %>
+      <div class="span3 pull-right">
+        <small>You do not have rights to create threads</small>
+      </div>
+      <% } %>
+      <% } %>
+    </div>
+  </div>
+</div>
+<hr class="divider">
+<div class="container">
+  <hr>
+  <div id="messages" class="container">
+    <% for(var i=0;i < messages.length; ++i){ %>
+    <div class="row-fluid message forum-post" id='msg<%-messages[i].id%>'>
+      <div class="row-fluid">
+        <div class="head">
+          <a href="/user/<%-messages[i].user_info.id%>" class="author ml-2"><%- messages[i].user_info.displayname %></a>
+          <span class="pull-right">#<%- i+1 %></span>
+
+          <p class="pull-right forum-post__meta-blk"><%- messages[i].dt %></p>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div id="msg_content<%-messages[i].id%>" class="ml-2 msg"> <%- messages[i].content %></div>
+        <% if(messages[i].canedit==true){%>
+        <button class="btn pull-right edit" data='<%-messages[i].id%>'>Edit message</button>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <% if(!user.id){ %>
+  <div class="span3 pull-right">
+    <small>Only authorized users can leave a message</small>
+  </div>
+  <%}else{%>
+  <% if(user.permissions.forum&2){ %>
+  <div class="row-fluid reply">
+    <button data='<%-messages[messages.length-1].id%>' class="btn reply">Leave Message</button>
+  </div>
+  <% }else{ %>
+  <div class="span3 pull-right">
+    <small>You do not have rights to leave messages</small>
+  </div>
+  <% } %>
+  <% } %>
+</div>
+
+<!--
+<div class="span3 sidebar-width">
+  <div class="well sidebar-nav-fixed">
+    <button data='<%-messages[messages.length-1].id%>' class="btn reply">Reply</button>
+  </div>
+</div>
+-->
+<% if(true||user.id){ %>
+<div class="container row-fluid">
+  <div id='writeMessage' class="container row-fluid"></div>
+</div>
+<script>
+  function destroyTinyMCE() {
+    tinymce = null;
+    tinyMCE = null;
+    $('div#createThread').empty();
+    $('div#writeMessage').empty();
+  }
+  loadFrame = function loadFrame(path, id) {
+    destroyTinyMCE();
+    $("div#" + id).load(path, function () {
+    });
+  }
+  function parseError(err) {
+    var codes = {
+      NAUTH: 'You are not authorized',
+      FMNOA: 'You are not owner of this post'
+    };
+    if (codes[err.code]) {
+      $.notify(codes[err.code], "error");
+    } else {
+      $.notify("undocumented error code: " + JSON.stringify(err, null, 1), "error");
+    }
+  }
+  var curReplyMessage = {};
+
+  function onEdit() {
+    var id = $(this).attr('data');
+    //get message content for tinyMCE
+    curReplyMessage = {id: id, content: $("div#msg_content" + id).html()};
+    $('button.edit').show();
+    loadFrame('/partials/forum/editMessage.html', 'writeMessage');
+  }
+  $(document).ready(function () {
+    $('button.reply').click(function () {
+      var id = $(this).attr('data');
+      curReplyMessage = {id: id};
+      loadFrame('/partials/forum/writeMessage.html', 'writeMessage');
+      $('div.reply').hide();
+    });
+    $('button.edit').click(onEdit);
+  });
+  function loadCreateThread() {
+    tmr();
+    $("div#createThread").load("/partials/forum/createThread.html", function () {
+    });
+  }
+</script>
+<% } %>

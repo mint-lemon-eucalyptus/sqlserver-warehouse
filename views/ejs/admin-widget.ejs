@@ -1,0 +1,117 @@
+<%- layout('admin-layout') -%>
+
+<script src="/plugins/jquery-ui.js"></script>
+<script src="/plugins/jquery.easyui.min.js"></script>
+
+<div id='btn-container' class="row-fluid">
+  <div id="all_widgets" class="span9 e">
+  </div>
+  <div class="span3 e">
+    <button id='saveWidgetPlacements_btn' class="btn btn-primary">save blocks placement</button>
+  </div>
+
+
+</div>
+
+<div id="widgetAdd_modal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+    <h3 contenteditable="true">add widget</h3>
+  </div>
+  <div style="height: 90%; min-height:90%" class="modal-body">
+    <label for="pos">position
+      <select id='pos'>
+        <option id='before_content'> before_content block</option>
+        <option id='after_content'> after_content block</option>
+        <option id='footer1_1'> footer1_1 block</option>
+        <option id='footer1_2'> footer1_2 block</option>
+        <option id='footer1_3'> footer1_3 block</option>
+        <option id='left'> left block</option>
+        <option id='right'> Right block</option>
+      </select>
+    </label>
+  </div>
+  <div class="modal-footer">
+    <a href="#" data-dismiss="modal" class="btn">Close</a>
+    <button id="widgetAdd_btn_save" class="btn btn-primary">Save</button>
+  </div>
+</div>
+
+<script>
+  var curType;
+  var widgets = {};
+
+  $(document).ready(function () {
+    reLoadWidget('<%- id %>');
+
+    $('#widgetAdd_btn_save').click(function () {
+      var jj = {
+        pos: $('select#pos option:selected').attr('id'),
+        type: curType,
+        template: 'plain',
+        config: {}
+      };
+      $.post("/admin/widgets/create", jj, function (data) {
+        if (data.err) {
+          console.log(data)
+          alert(data.err.detail);
+        } else {
+          reLoadWidget();
+          $('#widgetAdd_modal').modal('hide');
+        }
+      });
+    })
+
+    $('#all_widgets button').click(function () {
+      $('#widgetAdd_modal').modal();
+      curType = $(this).attr('id');
+      var curPos = $('select#pos option:selected').attr('id');
+      console.log(curPos, curType);
+      $(".ulsortable").sortable();
+
+    });
+    $('#saveWidgetPlacements_btn').click(function () {
+      var jj = {arr: serializeItemsPositions('ul#widgets', 'plain')};
+      if (!jj.arr.length) {
+        return;
+      }
+      console.log('saveWidgetPlacements_btn', jj.arr);
+      $.post("/admin/widgets/placements", jj, function (data) {
+        if (data.err) {
+          console.log(data)
+          alert(data.err.detail);
+        } else {
+          reLoadWidget();
+        }
+      });
+    })
+
+
+  });
+
+  function reLoadWidget(id) {
+    var ul = $('ul#widgets');
+    widgets = {};
+    var render = function (widget) {
+      //   console.log('widg', widget);
+      return $('<ul class="ulsortable" id="' + widget.type + '" wid="' + widget.id + '"><a href="/admin/widget/'+widget.id+'">' + widget.type + '</a></ul>');
+    };
+    //  loadWidgetTypesInto($('select#widget'));
+    $.post("/admin/widgets/list", {page_id: parseInt(id)}, function (data) {
+      var rows = data.response;
+      ul.find('ul').empty();
+      for (var i = 0; i < rows.length; ++i) {
+        var widget = rows[i];
+        //     console.log(widget);
+        if (!widgets[widget.pos]) {
+          widgets[widget.pos] = [];
+        }
+        widgets[widget.pos].push(widget);
+        var cc = ul.find('ul#' + widget.pos);
+        cc.append(render(widget));
+      }
+      $(".ulsortable").sortable();
+    });
+
+  }
+</script>

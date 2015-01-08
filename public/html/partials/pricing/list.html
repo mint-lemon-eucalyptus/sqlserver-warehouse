@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="span4">
+    <label for="type">type
+      <select id='type' data-ng-options="o.name for o in pricingTypes" data-ng-model="curPricingType"
+              ng-change="unblockControls()">
+      </select>
+    </label>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4">
+    <label for="type">
+      <input type="text" list="goods" size='20' ng-change="searchByGoods()" data-ng-model="curGoodName"
+             placeholder="type good`s name">
+      <datalist id="goods">
+        <option data-ng-repeat="ttl in goodsList" value="{{ttl.name}}"></option>
+      </datalist>
+    </label>
+  </div>
+  <div class="span4">
+    <label for="type">
+      <input type="text" list="agents" size='20' ng-change="searchByAgents()" data-ng-model="curAgentName"
+             placeholder="type agent`s name">
+      <datalist id="agents">
+        <option data-ng-repeat="ttl in agentsList" value="{{ttl.name}}"></option>
+      </datalist>
+    </label>
+  </div>
+</div>
+
+<a href="#!/pricing/new">new</a>
+
+<table class="table">
+  <thead>
+  <th>Good_id</th>
+  <th>Value</th>
+  <th>Agency_id</th>
+  <th>---</th>
+  </thead>
+
+
+  <tr ng-repeat="(index, item) in pricingList">
+    <td>{{item.good_name}}</td>
+    <td>{{item.value}}</td>
+    <td>{{item.agent_name}}</td>
+    <td>
+      <a href="#!/pricing/edit/{{item.good_id}}/{{item.agent_id}}">edit</a>
+    </td>
+    <td>
+      <a class="btn btn-danger" ng-click="removeEntity(item)">remove</a>
+    </td>
+  </tr>
+</table>
+
+<div class="modal hide fade fullscreen" id="console" tabindex="-1" role="dialog" aria-labelledby="label2"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="label2">{{query.name}}</h3>
+    <button class='tn' ng-click="runQuery()">run</button>
+  </div>
+  <div class="modal-body">
+    <div class=container>
+      <div class="row">
+        <div class="span5 e">
+          <textarea id="query" cols="180" style="width: 80%" rows="20" ng-model="query.query"
+                    placeholder="query here..."></textarea>
+        </div>
+        <div class="span6 e">
+          <p>{{queryResults}}</p>
+          <table id="results" style="width: 80%">
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
+<div class="modal hide fade" id="createDS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" data-focus-on="input:first" aria-hidden="true">×
+    </button>
+    <h3 id="myModalLabel">New {{temp.type.good_id}} Dataset</h3>
+  </div>
+  <div class="modal-body">
+    <input id="name" type="text" ng-model="toUpdate.name" placeholder="name of dataset..."/>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary" ng-click="createDataset()">Create</button>
+  </div>
+</div>
+
